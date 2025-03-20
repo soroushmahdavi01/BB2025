@@ -1,0 +1,5 @@
+name: mycompany-base
+description: Base Espanso package for our team
+version: 1.0.0
+matches:
+  - base.yml
