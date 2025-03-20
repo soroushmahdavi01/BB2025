@@ -1,0 +1,159 @@
+# espanso match file
+
+# For a complete introduction, visit the official docs at: https://espanso.org/docs/
+
+# You can use this file to define the base matches (aka snippets)
+# that will be available in every application when using espanso.
+
+# Matches are substitution rules: when you type the "trigger" string
+# it gets replaced by the "replace" string.
+matches:
+  # Simple text replacement
+  - trigger: ":espanso"
+    replace: "Hi there!"
+
+
+
+  # NOTE: espanso uses YAML to define matches, so pay attention to the indentation!
+
+  # But matches can also be dynamic:
+
+  # Notation date, time, and initials
+  - trigger: ";date"
+    replace: "{{date}} \u2014 {{initials}} \u2014 {{time}} {{zone}}\n\n"
+    vars:
+      - name: date
+        type: date
+        params:
+          format: "%m/%d/%Y"
+      - name: initials
+        type: echo
+        params:
+          echo: "SM" # <-- Update to to your initials
+      - name: time
+        type: date
+        params:
+          format: "%I:%M%p"
+      - name: zone
+        type: echo
+        params:
+          echo: "PST" # <-- Update to your timezone
+
+    # this trigger will create a line like this:
+    # 12/17/2024 — BS — 06:07PM PST
+
+  - trigger: ";rma"
+    replace: |
+      Determined replacement needed. 
+      iLet is (not) functional. 
+      Advised iLet will no longer water resistant. 
+      Advised to have backup therapy in place as the functionality of device is in question. 
+      Shipping information verified.
+      Serial number of broken iLet:
+      #: $|$
+      Advised broken iLet to be replaced within 1 week of receiving replacement.
+      Shipping label to return iLet will be provided.
+      Patient advised to sync data to mobile app prior to sending back, how to shut down, iLet therapy data will not be transferred to replacement iLet, CGM data can still be received.
+  # The RMA template. Each point will need to be covered with Pt (certain parts will not be applicable situationally)
+  # The "$|$" token is used to indicate where you would like the cursor to be placed after the snippet is expanded.
+
+  - trigger: "PTs "
+    replace: "PT stated "
+    # I don't use this one much, tbh
+
+  - trigger: ;bg
+    replace: |  
+             1.  What were the lowest/highest BG levels during the incident?
+
+
+             2. Was the BG out of range more than 90 minutes? If yes, how long?
+
+
+             3. Could the BG be corrected? If yes, how?
+
+             
+             4. Did the iLet alert of a high/low BG?
+
+
+             5. Did the event require outside assistance (non-medical) because the user was unable to help themselves? If yes, who helped and what did they do?
+                  Elaborate if the help was due to kindness or user incapacitation. 
+
+
+             6. Did the event require medical intervention? If yes, what? 
+
+
+             7. What symptoms did the user experience during the event? 
+  # The BGQs. Updated as of 2025.2.21. 
+
+  - trigger: "bgna "
+    replace: "BG not affected."
+  
+  - trigger: ";beta"
+    replace: "855-745-3800"
+  - trigger: ";dex"
+    replace: "844-607-8398"
+  - trigger: ";abbot"
+    replace: "844-607-8398"
+
+  
+
+  # experimental, and unapproved documentation for BGs
+  # - trigger: ;hbs
+  #   form: |
+  #     1. BG affected? Y
+  #     2. Highest BG this event? [[bg]]
+  #     3. Time over 180? [[time]]
+  #     4. Alert ^300mg/90 minutes? [[yno]]
+  #     5. Back-up therapy? [[therapy]]
+  #     6. Ketones? KAP? [[ketones]]
+  #     7. Recent steroid injections? [[yno]]
+  #     8. Medical intervention? [[intervention]]
+  #     9. Assistance? [[assistance]]
+  #     10. Symptoms? [[symptoms]]
+  #   form_fields:
+  #     yno: 
+  #       type: choice
+  #       values:
+  #         - Yes
+
+  # - trigger: ;hbf
+  #   form: |
+  #     1. BG affected? Y
+  #     2. Highest BG this event? [[bg]]
+  #     3. Time over 180? [[time]]
+  #     4. Alert ^300mg/90 minutes? [[alert]]
+  #     5. Back-up therapy? [[therapy]]
+  #     6. Ketones? KAP? [[ketones]]
+  #     7. Recent steroid injections? [[roids]]
+  #     8. Medical intervention? [[intervention]]
+  #     9. Assistance? [[assistance]]
+  #     10. Symptoms? [[symptoms]]
+  #   form_fields:
+  #     yno: 
+  #       type: choice
+  #       values:
+  #         - Yes
+  #         - No
+  # - trigger: ;div
+  #   replace: |
+  #     ____________________________________
+  # - trigger: ;dd
+  #   replace: |
+  #     ____________________________________
+  #     {{date}}
+  #   vars:
+  #     - name: date
+  #       type: match
+  #       params:
+  #         trigger: ";date"
+
+  - trigger: sshrug
+    replace: "¯\\_(ツ)_/¯"
+  # Not for case notation. duh.
+  
+  - trigger: ;cs
+    replace: Pt called in to be walked through cartridge-only supply change, which proceeded normally. 
+  - trigger: ;fs
+    replace: Pt called in to be called walked through full supply change, which proceeded normally. 
+  - trigger: ;ss
+    replace: Pt called in to be walked through site-only supply change, which proceeded normally. 
